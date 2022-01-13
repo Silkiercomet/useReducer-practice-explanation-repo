@@ -1,0 +1,32 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.line {
+  height: 3px;
+  background-color: #131313;
+  margin: 1.5rem 0;
+}
+.counter {
+  background-color: green;
+  color: #ebebeb;
+  padding: 1rem;
+}
+.btn {
+  border: none;
+  background-color: #ebebeb;
+  font-family: inherit;
+  padding: 0.5rem 1.2rem;
+  margin: 0.4rem;
+  border-radius: 8px;
+}
+.todo {
+  background-color: rgba(21, 132, 196, 0.733);
+  color: #ebebeb;
+}
+.todo ul {
+  list-style: none;
+}
+.todo ul li {
+  padding: 1rem 0;
+}
