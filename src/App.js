@@ -1,7 +1,7 @@
 import "./styles.css";
-import { useReducer } from "react";
 import Counter from "./Counter";
 import Todo from "./Todo";
+import Cart from "./Cart";
 export default function App() {
   return (
     <div className="App">
@@ -9,6 +9,7 @@ export default function App() {
       <div className="line" />
       <Todo />
       <div className="line" />
+      <Cart />
     </div>
   );
 }
