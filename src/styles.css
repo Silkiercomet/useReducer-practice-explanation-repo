@@ -30,3 +30,8 @@
 .todo ul li {
   padding: 1rem 0;
 }
+.bg-3 {
+  background-color: rgb(196, 141, 21);
+  color: #ebebeb;
+}
+
