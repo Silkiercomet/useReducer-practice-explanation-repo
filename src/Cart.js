@@ -1,36 +1,67 @@
 import { useReducer } from "react";
-//need to change the initial to an object
-//with the avalaible content and the cart
-//as separate dependencies
-const initial = [
-  { id: 1, content: "sweater", quantity: 3 },
-  { id: 2, content: "dog food", quantity: 3 },
-  { id: 3, content: "suit", quantity: 1 }
-];
-function func(cart, action) {
-  function findElement(id) {
-    return id !== action.payload;
-  }
-  function deleteQuantity(id) {
-    return cart.find((item) => findElement(item.id));
-  }
 
+const initial = {
+  products: [
+    { id: 1, content: "sweater", quantity: 3 },
+    { id: 2, content: "dog food", quantity: 3 },
+    { id: 3, content: "suit", quantity: 1 }
+  ],
+  cart: []
+};
+function func(state, action) {
   const reducer = {
-    addToCart: [...cart, action.payload],
-    removeAll: cart.filter((item) => findElement(item.id))
+    addToCart: () => {
+      let cartContain = state.cart.find(
+          (product) => product.id === action.payload.id
+        ),
+        newProduct = action.payload;
+
+      return cartContain
+        ? {
+            ...state,
+            cart: state.cart.map((product) =>
+              product.id === newProduct.id
+                ? { ...product, quantity: product.quantity + 1 }
+                : product
+            )
+          }
+        : { ...state, cart: [...state.cart, action.payload] };
+    },
+    removeAll: () => ({
+      ...state,
+      cart: state.cart.filter((product) => product.id !== action.payload)
+    }),
+    removeOne: () => {
+      let cartContain = state.cart.find(
+        (product) => product.id === action.payload
+      );
+      return cartContain.quantity > 1
+        ? {
+            ...state,
+            cart: state.cart.map((product) =>
+              product.id === action.payload
+                ? { ...product, quantity: product.quantity - 1 }
+                : product
+            )
+          }
+        : {
+            ...state,
+            cart: state.cart.filter((product) => product.id !== action.payload)
+          };
+    }
   };
-  console.log(deleteQuantity(action.payload).quantity);
-  return reducer[action.type];
+
+  return reducer[action.type]?.() ?? "error";
 }
 
 function Cart() {
-  const [cart, dispatch] = useReducer(func, initial);
+  const [state, dispatch] = useReducer(func, initial);
 
   return (
-    <div>
-      <h1>produtcs avalaibles</h1>
+    <div className="bg-3">
+      <h1>producs avalaibles</h1>
       <ul>
-        {initial.map((item) => (
+        {initial.products.map((item) => (
           <li key={item.id}>
             {item.content}
             <button
@@ -43,7 +74,7 @@ function Cart() {
       </ul>
       <h1>cart preview</h1>
       <ul>
-        {cart.map((item) => (
+        {state.cart.map((item) => (
           <li key={item.id}>
             {item.content}, amount: #{item["quantity"]}
             <button
